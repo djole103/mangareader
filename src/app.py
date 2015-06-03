@@ -1,9 +1,8 @@
 import urllib.request
 import re
 import webbrowser
+import os, sys
 
-"""                       """
-""" Classes and functions """"""                       """
 class Manga:
     def __init__(self,title,nc = 1 ):
         self.title = title
@@ -12,15 +11,21 @@ class Manga:
         self.lastread = int(0)  
 
 def list_init():
-    try:
-        file = open("C:\\Users\\djord_000\\Desktop\\Djordje\\Software\\Eclipse Workspace\\intro\\mangas.txt",'r+')
-        mlist = []
-        lines = file.readlines()
-        for line in lines:
-            mlist.append(Manga(line.split(' ')[0],line.split(' ')[1]))
-        return mlist   
-    except IOError:
-        print("IOError couldn't open mangas.txt\n")
+	try:
+		#dir = os.path.dirname(__file__)
+		dir = os.getcwd()
+		#dir = sys.path.append(os.path.realpath('..'))
+		print(dir)
+		filename = dir + '/mangas.txt'
+		print(filename)
+		file = open(filename,'r+')
+		mlist = []
+		lines = file.readlines()
+		for line in lines:
+			mlist.append(Manga(line.split(' ')[0],line.split(' ')[1]))
+		return mlist
+	except IOError:
+        	print("IOError couldn't open mangas.txt\n")
     
        
 def newchaptercheck(manga):
@@ -40,9 +45,6 @@ def refresh(mlist):
         if(manga.nc>manga.lastread):
             manga.alert = True
 
-"""                       """
-"""                       """
-"""                       """
 
 mlist = list_init()
 newchaptercheck (mlist[0])
