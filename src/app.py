@@ -4,20 +4,17 @@ import webbrowser
 import os, sys
 
 class Manga:
-    def __init__(self,title,nc = 1 ):
+    def __init__(self,title,lastread = None ):
         self.title = title
-        self.nc = int(nc)
+        self.newestchap = int(newestchap)
         self.alert = True
-        self.lastread = int(0)  
+        self.lastread = lastread  
 
 def list_init():
 	try:
-		#dir = os.path.dirname(__file__)
 		dir = os.getcwd()
-		#dir = sys.path.append(os.path.realpath('..'))
 		print(dir)
 		filename = dir + '/mangas.txt'
-		print(filename)
 		file = open(filename,'r+')
 		mlist = []
 		lines = file.readlines()
@@ -28,13 +25,15 @@ def list_init():
         	print("IOError couldn't open mangas.txt\n")
     
        
-def newchaptercheck(manga):
-    html_content = urllib.request.urlopen('http://www.mangareader.net/{0}'.format(manga.title)).read()
-    matches = re.findall(str(manga.nc),str(html_content))
-    if len(matches) != 0:
-        webbrowser.open("http://www.mangareader.net/{0}/{1}".format(manga.title,str(manga.nc)))
+def newchapteropen(manga):
+    if manga.lastread < manga.newestchap:
+	try:
+       		webbrowser.open("http://www.mangareader.net/{0}/{1}".format(manga.title,str(manga.lastread+1)))
+		manga.lastread +=1
+	except Exception as e:
+		print("Couldn't open the new chapter! Exception: %s" % e)
     else:
-        print("Error searching for manga couldn't find newest chapter")
+        print("No new chapters sorry bud!")
 
     
 def refresh(mlist):
