@@ -11,6 +11,10 @@ def main():
     finalstr = re.sub(pattern='\ ',repl='-',string=strlower)
     print(finalstr)
 
+    spli = re.sub(pattern='-',repl=' ',string=finalstr)
+    print(spli)
+    startstr = spli.title()
+    print(startstr)
 
     # count = 0;
     # dict = {"a":1,"b":2,"c":2}

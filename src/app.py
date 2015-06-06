@@ -16,8 +16,9 @@ import pprint
 # x = input('Gimme da money: ')
 
 class Manga:
-    def __init__(self, title, lastread=1, newestchap=1):
+    def __init__(self, title, htmltitle, lastread=1, newestchap=1):
         self.title = title
+        self.htmltitle = htmltitle
         self.newestchap = newestchap
         self.alert = True
         self.lastread = lastread
@@ -31,10 +32,11 @@ def dict_init():
         mangadict = {}
         lines = file.readlines()
         for line in lines:
-            title = line.split(' ')[0]
+            title = htmlToTitle(line.split(' ')[0])
+            htmltitle = line.split(' ')[0]
             lastread = int(line.split(' ')[1])
             print("%s" % title)
-            mangadict[title] = Manga(title=title, lastread=lastread)
+            mangadict[title] = Manga(title=title, htmltitle=htmltitle, lastread=lastread)
         return mangadict
     except IOError:
         print("IOError couldn't open mangas.txt\n")
@@ -44,7 +46,7 @@ def newchapteropen(manga):
     refresh(manga)
     if manga.lastread < manga.newestchap:
         try:
-            webbrowser.open("http://www.mangareader.net/{0}/{1}".format(manga.title, str(manga.lastread + 1)))
+            webbrowser.open("http://www.mangareader.net/{0}/{1}".format(manga.htmltitle, str(manga.lastread + 1)))
             manga.lastread += 1
         except Exception as e:
             print("Couldn't open the new chapter! Exception: %s" % e)
@@ -53,18 +55,26 @@ def newchapteropen(manga):
 
 
 def refresh(manga):
-    print("http://www.mangareader.net/%s" % manga.title)
-    html_content = urllib.request.urlopen('http://www.mangareader.net/{0}'.format(manga.title)).read()
-    while (len(re.findall(pattern=str(manga.newestchap + 1), string=str(html_content))) > 0):
+    print("http://www.mangareader.net/%s" % manga.htmltitle)
+    html_content = urllib.request.urlopen('http://www.mangareader.net/{0}'.format(manga.htmltitle)).read()
+    #patternstr = "%s %s" % (manga.title,str(manga.newestchap+1))
+    #print(patternstr)
+    #print('http://www.mangareader.net/{0}'.format(manga.htmltitle))
+    while (len(re.findall(pattern="%s %s" % (manga.title,str(manga.newestchap)), string=str(html_content))) > 0):
         manga.newestchap += 1
         if (manga.newestchap > manga.lastread):
             manga.alert = True
 
-def titleFormat(title):
+# Foo Bar -> foo-bar
+def titleToHtml(title):
     return re.sub(pattern='\ ',repl='-',string=title.lower())
 
+# foo-bar -> Foo Bar
+def htmlToTitle(htmltitle):
+    lowertitle = re.sub(pattern='-',repl=' ',string=htmltitle)
+    return lowertitle.title()
 
 mangadict = dict_init()
-newchapteropen(mangadict["bleach"])
+newchapteropen(mangadict["Bleach"])
 
-print("{} {}\n".format(mangadict["bleach"].title, int(mangadict["bleach"].newestchap)))
+print("{} {}\n".format(mangadict["Bleach"].htmltitle, int(mangadict["Bleach"].newestchap)))
