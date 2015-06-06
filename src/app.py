@@ -2,6 +2,7 @@ import urllib.request
 import re
 import webbrowser
 import os, sys
+import tkinter
 import pprint
 
 # refresh(mlist)
@@ -57,9 +58,6 @@ def newchapteropen(manga):
 def refresh(manga):
     print("http://www.mangareader.net/%s" % manga.htmltitle)
     html_content = urllib.request.urlopen('http://www.mangareader.net/{0}'.format(manga.htmltitle)).read()
-    #patternstr = "%s %s" % (manga.title,str(manga.newestchap+1))
-    #print(patternstr)
-    #print('http://www.mangareader.net/{0}'.format(manga.htmltitle))
     while (len(re.findall(pattern="%s %s" % (manga.title,str(manga.newestchap)), string=str(html_content))) > 0):
         manga.newestchap += 1
         if (manga.newestchap > manga.lastread):
@@ -73,6 +71,11 @@ def titleToHtml(title):
 def htmlToTitle(htmltitle):
     lowertitle = re.sub(pattern='-',repl=' ',string=htmltitle)
     return lowertitle.title()
+
+#def addManga(title,lastread):
+
+#def deleteManga(title):
+
 
 mangadict = dict_init()
 newchapteropen(mangadict["Bleach"])
