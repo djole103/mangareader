@@ -3,8 +3,20 @@ import re
 import webbrowser
 import os, sys
 
+
+#refresh(mlist)
+
+#for x in mlist:
+#    print("{} {}\n".format(x.title,x.nc))
+#    
+# shingeki = Manga("shingeki-no-kyojin",63)
+# a.append(shingeki)
+# for x in a:
+#     newchaptercheck(x)
+#x = input('Gimme da money: ')
+
 class Manga:
-    def __init__(self,title,lastread = None, newestchap=None ):
+    def __init__(self,title,lastread =1, newestchap=1 ):
         self.title = title
         self.newestchap = newestchap
         self.alert = True
@@ -19,8 +31,9 @@ def dict_init():
 		lines = file.readlines()
 		for line in lines:
 			title = line.split(' ')[0]
-			lastread = line.split(' ')[1]
-			mangadict[title] = Manga(title,lastread)
+			lastread = int(line.split(' ')[1])
+			print("%s" % title)
+			mangadict[title] = Manga(title=title,lastread=lastread)
 		return mangadict
 	except IOError:
         	print("IOError couldn't open mangas.txt\n")
@@ -42,6 +55,7 @@ def list_init():
     
        
 def newchapteropen(manga):
+	refresh(manga)
 	if manga.lastread < manga.newestchap:
 		try:
 			webbrowser.open("http://www.mangareader.net/{0}/{1}".format(manga.title,str(manga.lastread+1)))
@@ -52,27 +66,15 @@ def newchapteropen(manga):
 		print("No new chapters sorry bud!")
 
     
-def refresh(mlist):
-	for manga in mlist:
-		html_content = urllib.request.urlopen('http://www.mangareader.net/{0}'.format(manga.title)).read()
-		while(len(re.findall(str(manga.nc+1),str(html_content)))>0):
-			manga.nc+=1
-			if(manga.nc>manga.lastread):
-				manga.alert = True
-
+def refresh(manga):
+	print("http://www.mangareader.net/%s" % manga.title)
+	html_content = urllib.request.urlopen('http://www.mangareader.net/{0}'.format(manga.title)).read()
+	while(len(re.findall(str(manga.newestchap+1),str(html_content)))>0):
+		manga.newestchap+=1
+		if(manga.newestchap>manga.lastread):
+			manga.alert = True
 
 mangadict = dict_init()
 newchapteropen(mangadict["bleach"])
 
-print("{} {}\n".format(mangadict["bleach"].title,int(mangadict["bleach"].newestchap))
-
-#refresh(mlist)
-
-#for x in mlist:
-#    print("{} {}\n".format(x.title,x.nc))
-#    
-# shingeki = Manga("shingeki-no-kyojin",63)
-# a.append(shingeki)
-# for x in a:
-#     newchaptercheck(x)
-#x = input('Gimme da money: ')
+print("{} {}\n".format(mangadict["bleach"].title,int(mangadict["bleach"].newestchap)))
