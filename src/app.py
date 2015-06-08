@@ -2,7 +2,7 @@ import urllib.request
 import re
 import webbrowser
 import os, sys
-import tkinter
+import tkinter as tk
 import pprint
 
 # refresh(mlist)
@@ -24,6 +24,22 @@ class Manga:
         self.alert = True
         self.lastread = lastread
 
+class Application(tk.Frame):
+    def __init__(self, master=None):
+        tk.Frame.__init__(self, master)
+        self.pack()
+        self.createWidgets()
+
+    def createWidgets(self):
+        self.hi_there = tk.Button(self)
+        self.hi_there["text"] = "Open a newer chapter\n(click me)"
+        self.hi_there["command"] = newchapteropen(mangadict["Bleach"])
+        self.hi_there.pack(side="top")
+
+        self.QUIT = tk.Button(self, text="QUIT", fg="red",
+                                            command=root.destroy)
+        self.QUIT.pack(side="bottom")
+
 
 def dict_init():
     try:
@@ -38,6 +54,7 @@ def dict_init():
             lastread = int(line.split(' ')[1])
             print("%s" % title)
             mangadict[title] = Manga(title=title, htmltitle=htmltitle, lastread=lastread)
+        file.close()
         return mangadict
     except IOError:
         print("IOError couldn't open mangas.txt\n")
@@ -78,6 +95,11 @@ def htmlToTitle(htmltitle):
 
 
 mangadict = dict_init()
-newchapteropen(mangadict["Bleach"])
 
-print("{} {}\n".format(mangadict["Bleach"].htmltitle, int(mangadict["Bleach"].newestchap)))
+root = tk.Tk()
+app = Application(master=root)
+app.mainloop()
+
+#newchapteropen(mangadict["Bleach"])
+
+#print("{} {}\n".format(mangadict["Bleach"].htmltitle, int(mangadict["Bleach"].newestchap)))
