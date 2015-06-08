@@ -33,7 +33,7 @@ class Application(tk.Frame):
     def createWidgets(self):
         self.hi_there = tk.Button(self)
         self.hi_there["text"] = "Open a newer chapter\n(click me)"
-        self.hi_there["command"] = newchapteropen(mangadict["Bleach"])
+        self.hi_there["command"] = lambda: newchapteropen(mangadict["Bleach"])
         self.hi_there.pack(side="top")
 
         self.QUIT = tk.Button(self, text="QUIT", fg="red",
