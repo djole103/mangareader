@@ -30,6 +30,12 @@ class Application(tk.Frame):
         self.pack()
         self.createWidgets()
 
+    def onExit(self):
+            f = open("mangas.txt",'w')
+            for manga in mangadict.values():
+                f.write("%s %s\n" % (manga.htmltitle,manga.lastread))
+            root.destroy()
+
     def createWidgets(self):
         self.hi_there = tk.Button(self)
         self.hi_there["text"] = "Open a newer chapter\n(click me)"
@@ -37,8 +43,10 @@ class Application(tk.Frame):
         self.hi_there.pack(side="top")
 
         self.QUIT = tk.Button(self, text="QUIT", fg="red",
-                                            command=root.destroy)
+                                            command=self.onExit)
         self.QUIT.pack(side="bottom")
+
+
 
 
 def dict_init():
