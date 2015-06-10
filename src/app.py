@@ -42,6 +42,13 @@ class Application(tk.Frame):
         self.hi_there["command"] = lambda: newchapteropen(mangadict["Bleach"])
         self.hi_there.pack(side="top")
 
+        self.addmanga = tk.Button(self)
+        self.addmanga["text"] = "Add a manga!"
+        self.addmanga["command"] = lambda: addManga(TEXTBOXVALUE)
+        self.addmanga.pack(side="top")
+
+        #add a textbox to input title and option for most recently read
+
         self.QUIT = tk.Button(self, text="QUIT", fg="red",
                                             command=self.onExit)
         self.QUIT.pack(side="bottom")
@@ -97,7 +104,7 @@ def htmlToTitle(htmltitle):
     lowertitle = re.sub(pattern='-',repl=' ',string=htmltitle)
     return lowertitle.title()
 
-#def addManga(title,lastread):
+def addManga(title,lastread):
 
 #def deleteManga(title):
 
