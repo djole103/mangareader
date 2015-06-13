@@ -5,17 +5,6 @@ import os, sys
 import tkinter as tk
 import pprint
 
-# refresh(mlist)
-
-# for x in mlist:
-#    print("{} {}\n".format(x.title,x.nc))
-#    
-# shingeki = Manga("shingeki-no-kyojin",63)
-# a.append(shingeki)
-# for x in a:
-#     newchaptercheck(x)
-# x = input('Gimme da money: ')
-
 class Manga:
     def __init__(self, title, htmltitle, lastread=1, newestchap=1):
         self.title = title
@@ -44,8 +33,12 @@ class Application(tk.Frame):
 
         self.addmanga = tk.Button(self)
         self.addmanga["text"] = "Add a manga!"
-        self.addmanga["command"] = lambda: addManga(TEXTBOXVALUE)
+        self.addmanga["command"] = lambda: print(self.newmangastr)#lambda: addManga(TEXTBOXVALUE)
         self.addmanga.pack(side="top")
+
+        self.newmanga = tk.Entry()
+        self.newmanga.pack()
+        self.newmangastr = tk.StringVar(value=self.newmanga)
 
         #add a textbox to input title and option for most recently read
 
@@ -104,10 +97,9 @@ def htmlToTitle(htmltitle):
     lowertitle = re.sub(pattern='-',repl=' ',string=htmltitle)
     return lowertitle.title()
 
-def addManga(title,lastread):
+#def addManga(title,lastread):
 
 #def deleteManga(title):
-
 
 mangadict = dict_init()
 
