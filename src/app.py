@@ -109,7 +109,13 @@ def addManga(title,lastread=1):
 
 
 
-#def deleteManga(title):
+def deleteManga(title):
+    if mangadict[title]:
+        del mangadict[title]
+        f = open("mangas.txt",'w')
+        for manga in mangadict.values():
+            f.write("%s %s\n" % (manga.htmltitle,manga.lastread))
+
 
 mangadict = dict_init()
 
