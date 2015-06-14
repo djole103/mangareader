@@ -97,7 +97,17 @@ def htmlToTitle(htmltitle):
     lowertitle = re.sub(pattern='-',repl=' ',string=htmltitle)
     return lowertitle.title()
 
-#def addManga(title,lastread):
+def addManga(title,lastread=1):
+    if not mangadict[title]:
+        mangadict[title] = Manga(title,titleToHtml(title),lastread=lastread)
+        with open("mangas.txt", "a") as file:
+            file.write("%s %s" % title,lastread)
+    else:
+        #when you press the exit button the db file will be updated
+        mangadict[title].lastread = lastread
+
+
+
 
 #def deleteManga(title):
 
