@@ -1,3 +1,4 @@
 naruto 30
 shingeki-no-kyojin 5
+gto 1
 bleach 22

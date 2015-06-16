@@ -26,22 +26,32 @@ class Application(tk.Frame):
             root.destroy()
 
     def createWidgets(self):
+
+        #BUTTON NEW CHAPTER
         self.hi_there = tk.Button(self)
         self.hi_there["text"] = "Open a newer chapter\n(click me)"
         self.hi_there["command"] = lambda: newchapteropen(mangadict["Bleach"])
         self.hi_there.pack(side="top")
 
-        self.addmanga = tk.Button(self)
-        self.addmanga["text"] = "Add a manga!"
-        self.addmanga["command"] = lambda: print(self.newmangastr)#lambda: addManga(TEXTBOXVALUE)
-        self.addmanga.pack(side="top")
-
+        #ENTRY NEW MANGA
         self.newmanga = tk.Entry()
         self.newmanga.pack()
         self.newmangastr = tk.StringVar(value=self.newmanga)
 
+        #ENTRY LAST READ
+        self.lastread = tk.Entry()
+        self.lastread.pack()
+        self.lastreadstr = tk.StringVar(value=self.lastread)
+
+        #BUTTON ADD MANGA
+        self.addmanga = tk.Button(self)
+        self.addmanga["text"] = "Add a manga!"
+        self.addmanga["command"] = lambda: addManga(title=self.newmanga.get(),lastread=self.lastread.get())
+        self.addmanga.pack(side="top")
+
         #add a textbox to input title and option for most recently read
 
+        #BUTTON QUIT
         self.QUIT = tk.Button(self, text="QUIT", fg="red",
                                             command=self.onExit)
         self.QUIT.pack(side="bottom")
@@ -98,19 +108,16 @@ def htmlToTitle(htmltitle):
     return lowertitle.title()
 
 def addManga(title,lastread=1):
-    if not mangadict[title]:
+    if title not in mangadict:
         mangadict[title] = Manga(title,titleToHtml(title),lastread=lastread)
         with open("mangas.txt", "a") as file:
-            file.write("%s %s" % title,lastread)
+            file.write("%s %d" % (title,lastread))
     else:
         #when you press the exit button the db file will be updated
         mangadict[title].lastread = lastread
 
-
-
-
 def deleteManga(title):
-    if mangadict[title]:
+    if title in mangadict:
         del mangadict[title]
         f = open("mangas.txt",'w')
         for manga in mangadict.values():
