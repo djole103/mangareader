@@ -31,23 +31,25 @@ class Application(tk.Frame):
         self.hi_there = tk.Button(self)
         self.hi_there["text"] = "Open a newer chapter\n(click me)"
         self.hi_there["command"] = lambda: newchapteropen(mangadict["Bleach"])
-        self.hi_there.pack(side="top")
-
-        #ENTRY NEW MANGA
-        self.newmanga = tk.Entry()
-        self.newmanga.pack()
-        self.newmangastr = tk.StringVar(value=self.newmanga)
-
-        #ENTRY LAST READ
-        self.lastread = tk.Entry()
-        self.lastread.pack()
-        self.lastreadstr = tk.StringVar(value=self.lastread)
+        self.hi_there.pack()
 
         #BUTTON ADD MANGA
         self.addmanga = tk.Button(self)
         self.addmanga["text"] = "Add a manga!"
         self.addmanga["command"] = lambda: addManga(title=self.newmanga.get(),lastread=self.lastread.get())
-        self.addmanga.pack(side="top")
+        self.addmanga.pack(padx=5, pady=10, side='left')
+
+        #ENTRY NEW MANGA
+        self.newmanga = tk.Entry()
+        self.newmanga.pack(padx=5, pady=10, side='left')
+        self.newmangastr = tk.StringVar(value=self.newmanga)
+
+        #ENTRY LAST READ
+        self.lastread = tk.Entry()
+        self.lastread.pack(padx=5, pady=10, side='left')
+        self.lastreadstr = tk.StringVar(value=self.lastread)
+
+
 
         #add a textbox to input title and option for most recently read
 
