@@ -1,3 +1,4 @@
-naruto 30
 shingeki-no-kyojin 5
+naruto 30
 bleach 22
+gto 1
