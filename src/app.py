@@ -4,6 +4,7 @@ import webbrowser
 import os, sys
 import tkinter as tk
 import pprint
+from users import Users
 
 class Manga:
     def __init__(self, title, htmltitle, lastread=1, newestchap=1):
@@ -124,6 +125,11 @@ def deleteManga(title):
         f = open("mangas.txt",'w')
         for manga in mangadict.values():
             f.write("%s %s\n" % (manga.htmltitle,manga.lastread))
+
+#def dictFromTable:
+
+
+user = Users(username="marko",password="polo")
 
 
 mangadict = dict_init()
