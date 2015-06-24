@@ -128,9 +128,14 @@ def deleteManga(title):
 
 #def dictFromTable:
 
-
+mangadict = {}
 user = Users(username="marko",password="polo")
+for title,obj in user.table:
+    mangadict[title] = Manga(title=title,htmltitle=titleToHtml(title),lastread=obj['lastread'])
 
+#mangadict = user.table
+# for title,obj in mangadict:
+#     mangadict[title].htmltitle
 
 mangadict = dict_init()
 
