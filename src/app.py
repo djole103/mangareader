@@ -28,6 +28,10 @@ class Application(tk.Frame):
 
     def createWidgets(self):
 
+        self.picture = tk.PhotoImage(file='GIFPaint.gif')
+        self.label = tk.Label(image=self.picture)
+        self.label.pack()
+
         #BUTTON NEW CHAPTER
         self.hi_there = tk.Button(self)
         self.hi_there["text"] = "Open a newer chapter\n(click me)"
@@ -126,23 +130,28 @@ def deleteManga(title):
         for manga in mangadict.values():
             f.write("%s %s\n" % (manga.htmltitle,manga.lastread))
 
-#def dictFromTable:
+#def dictFromTable(table):
 
-mangadict = {}
-user = Users(username="marko",password="polo")
-for title,obj in user.table:
-    mangadict[title] = Manga(title=title,htmltitle=titleToHtml(title),lastread=obj['lastread'])
 
-#mangadict = user.table
-# for title,obj in mangadict:
-#     mangadict[title].htmltitle
 
-mangadict = dict_init()
 
-root = tk.Tk()
-app = Application(master=root)
-app.mainloop()
+if __name__ == "__main__":
 
-#newchapteropen(mangadict["Bleach"])
+    mangadict = {}
+    # user = Users(username="marko",password="polo")
+    # for title,obj in user.table:
+    #     mangadict[title] = Manga(title=title,htmltitle=titleToHtml(title),lastread=obj['lastread'])
 
-#print("{} {}\n".format(mangadict["Bleach"].htmltitle, int(mangadict["Bleach"].newestchap)))
+    #mangadict = user.table
+    # for title,obj in mangadict:
+    #     mangadict[title].htmltitle
+
+    mangadict = dict_init()
+
+    root = tk.Tk()
+    app = Application(master=root)
+    app.mainloop()
+
+    #newchapteropen(mangadict["Bleach"])
+
+    #print("{} {}\n".format(mangadict["Bleach"].htmltitle, int(mangadict["Bleach"].newestchap)))
